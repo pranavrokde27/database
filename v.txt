@@ -1,0 +1,56 @@
+ 1)   Write an SQL query to solve the given problem statement.
+What percentage of total orders were shipped on the same date?
+
+
+ans:-SELECT COUNT(*) * 100.0 / (SELECT COUNT(*) FROM orders) AS percentage_shipped_same_day
+FROM orders
+WHERE order_date = ship_date;
+
+
+
+ 2)  Write an SQL query to solve the given problem statement.
+Name top 3 customers with highest total value of orders.
+
+SELECT c.customer_id, SUM(o.order_value) AS total_order_value
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+ORDER BY total_order_value DESC
+LIMIT 3;
+
+
+3)  Write an SQL query to solve the given problem statement.
+Find the top 5 items with the highest average sales per day.
+
+SELECT i.item_id, AVG(s.sale_amount) AS avg_sales_per_day
+FROM items i
+JOIN sales s ON i.item_id = s.item_id
+GROUP BY i.item_id
+ORDER BY avg_sales_per_day DESC
+LIMIT 5;
+
+
+ 4) Write an SQL query to solve the given problem statement.
+Write a query to find the average order value for each customer, and rank the customers by their average order value.
+
+SELECT c.customer_id, AVG(o.order_value) AS avg_order_value
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+ORDER BY avg_order_value DESC;
+
+ 5)  Write an SQL query to solve the given problem statement.
+Give the name of customers who ordered highest and lowest orders from each city.
+
+SELECT c.city, 
+    MAX(o.order_id) AS highest_order_id, 
+    MIN(o.order_id) AS lowest_order_id, 
+    MAX(CASE WHEN o.order_id = highest_order_id THEN c.customer_name END) AS customer_with_highest_order,
+    MAX(CASE WHEN o.order_id = lowest_order_id THEN c.customer_name END) AS customer_with_lowest_order
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.city;
+
+
+
+
